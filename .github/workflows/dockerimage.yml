@@ -34,7 +34,6 @@ jobs:
                  --force-rm \
                  --file ./Dockerfile \
                  --build-arg varRunDate=${{ env.varrundate }} \
-                 --build-arg varVerOpenshift=${{ env.varveropenshift }} \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:latest \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:${{ env.varrundate }}-${{ env.githash }}
     - name: Image Push | openshift-install-mod | quay.io
