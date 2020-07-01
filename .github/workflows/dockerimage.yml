@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Docker Build Enable Experimental
+      run: |
+        echo $'{\n    "experimental": true\n}' | sudo tee /etc/docker/daemon.json;
+      run: |
+        git clone https://github.com/openshift/installer.git /tmp/installer
     - name: Variable | Export Build Date
       run: |
         export varrundate="$(date +%y%m%d%I%M%S)"
