@@ -17,6 +17,7 @@ jobs:
       run: |
         export varrundate="$(date +%y%m%d%I%M%S)"
         echo "::set-env name=varrundate::$varrundate"
+    - name: Variable | Export Binary Last Commit Hash
       run: |
         git clone https://github.com/openshift/installer.git /tmp/installer
         cd /tmp/installer
