@@ -37,5 +37,5 @@ jobs:
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:${{ env.varrundate }}-${{ env.githash }}
     - name: Image Push | openshift-install-mod | quay.io
       run: |
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/one:latest;        \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:latest;        \
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:${{ env.varrundate }}-${{ env.githash }}
