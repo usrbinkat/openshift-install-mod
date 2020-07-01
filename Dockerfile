@@ -18,7 +18,7 @@ RUN set -ex \
      && ./hack/build.sh \
 	 && mv ./bin/openshift-install /root/openshift-install-mod \
 	 && cd /root \
-     && ./openshift-install-mod version
+     && ./openshift-install-mod version \
 	 && rm -rf /root/dev/installer
 
 FROM final
