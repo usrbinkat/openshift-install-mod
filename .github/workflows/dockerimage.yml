@@ -13,9 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Docker Build Enable Experimental
-      run: |
-        echo $'{\n    "experimental": true\n}' | sudo tee /etc/docker/daemon.json;
     - name: Variable | Export Build Date
       run: |
         export varrundate="$(date +%y%m%d%I%M%S)"
@@ -33,7 +30,6 @@ jobs:
     - name: Build Binary | openshift-install-mod
       run: |
         docker build . \
-                 --squash \
                  --force-rm \
                  --file ./Dockerfile \
                  --build-arg varRunDate=${{ env.varrundate }} \
