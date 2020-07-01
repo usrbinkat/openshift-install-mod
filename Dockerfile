@@ -23,5 +23,6 @@ RUN set -ex \
 
 FROM final
 COPY --from=builder /root/openshift-install-mod /root/
+RUN echo
 WORKDIR /root
 CMD ["bash"]
