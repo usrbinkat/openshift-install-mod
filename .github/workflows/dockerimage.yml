@@ -27,10 +27,14 @@ jobs:
     - name: Quay.io Login
       run: |
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io 
-    - name: Build Binary | openshift-install-mod
+    - name: Builder Image | Compile Binary | openshift-install-mod
       run: |
         docker build . \
-                 --force-rm \
+                 --file ./Dockerfile.builder \
+                 --tag localhost/builder:latest
+    - name: Builder Image | Compile Binary | openshift-install-mod
+      run: |
+        docker build . \
                  --file ./Dockerfile \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:latest \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:${{ env.varrundate }}-${{ env.githash }}
