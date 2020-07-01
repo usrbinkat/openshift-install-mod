@@ -1,4 +1,7 @@
-FROM docker.io/containercraft/ccio-golang:ubi8
+FROM docker.io/containercraft/ccio-golang:ubi8 as builder
+FROM docker.io/library/alpine:latest as final
+
+FROM builder
 ARG gitBranch="release-4.5"
 ARG uriInstaller="https://github.com/openshift/installer.git"
 ARG filePath_tlsgo="/root/dev/installer/pkg/asset/tls/tls.go"
@@ -15,5 +18,10 @@ RUN set -ex \
      && ./hack/build.sh \
 	 && mv ./bin/openshift-install /root/openshift-install-mod \
 	 && cd /root \
+     && ./openshift-install-mod version
 	 && rm -rf /root/dev/installer
-RUN /root/openshift-install-mod version
+
+FROM final
+COPY --from=builder /root/openshift-install-mod /root/
+WORKDIR /root
+CMD ["bash"]

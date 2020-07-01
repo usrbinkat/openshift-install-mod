@@ -7,7 +7,7 @@ on:
     branches: 
       - master
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '0 2 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,7 +32,6 @@ jobs:
         docker build . \
                  --force-rm \
                  --file ./Dockerfile \
-                 --build-arg varRunDate=${{ env.varrundate }} \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:latest \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:${{ env.varrundate }}-${{ env.githash }}
     - name: Image Push | openshift-install-mod | quay.io
