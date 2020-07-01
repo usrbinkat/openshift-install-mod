@@ -32,7 +32,7 @@ jobs:
         docker build . \
                  --file ./Dockerfile.builder \
                  --tag localhost/builder:latest
-    - name: Builder Image | Compile Binary | openshift-install-mod
+    - name: Carrier Image | Copy binary into cradle
       run: |
         docker build . \
                  --file ./Dockerfile \

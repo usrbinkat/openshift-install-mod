@@ -1,3 +1,4 @@
+FROM registry.access.redhat.com/ubi8/ubi-minimal as aux
 FROM docker.io/containercraft/ccio-golang:ubi8 as builder
 ARG gitBranch="release-4.5"
 ARG uriInstaller="https://github.com/openshift/installer.git"
