@@ -24,6 +24,9 @@ jobs:
         git checkout release-4.6
         export githash="$(git log -1 --pretty=%h)"
         echo "::set-env name=githash::$githash"
+    - name: Docker.io Login
+      run: |
+        echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io 
     - name: Quay.io Login
       run: |
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io 
@@ -37,8 +40,14 @@ jobs:
         docker build . \
                  --file ./Dockerfile \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6 \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | openshift-install-mod | quay.io
+                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6 \
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }} \
+                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
+    - name: Image Push | openshift-install-edge | docker.io
       run: |
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6;        \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6;        \
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
+#   - name: Image Push | openshift-install-mod | quay.io
+#     run: |
+#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6;        \
+#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
