@@ -2,12 +2,12 @@ name: OpenShiftInstallBinary_NightlyBuilder
 on:
   push:
     branches: 
-      - master
+      - 4.6
   pull_request:
     branches: 
-      - master
+      - 4.6
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 8 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +21,7 @@ jobs:
       run: |
         git clone https://github.com/openshift/installer.git /tmp/installer
         cd /tmp/installer
-        git checkout release-4.5
+        git checkout release-4.6
         export githash="$(git log -1 --pretty=%h)"
         echo "::set-env name=githash::$githash"
     - name: Quay.io Login
@@ -31,14 +31,14 @@ jobs:
       run: |
         docker build . \
                  --file ./Dockerfile.builder \
-                 --tag localhost/builder:latest
+                 --tag localhost/builder:4.6
     - name: Carrier Image | Copy binary into cradle
       run: |
         docker build . \
                  --file ./Dockerfile \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:latest \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:${{ env.varrundate }}-${{ env.githash }}
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6 \
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
     - name: Image Push | openshift-install-mod | quay.io
       run: |
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:latest;        \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:${{ env.varrundate }}-${{ env.githash }}
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6;        \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}

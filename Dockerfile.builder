@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal as aux
 FROM docker.io/containercraft/ccio-golang:ubi8 as builder
-ARG gitBranch="release-4.5"
+ARG gitBranch="release-4.6"
 ARG uriInstaller="https://github.com/openshift/installer.git"
 ARG filePath_tlsgo="/root/dev/installer/pkg/asset/tls/tls.go"
 WORKDIR /root/dev 
@@ -14,7 +14,7 @@ RUN set -ex \
      && export filePath_PatchList=$(grep -lR ValidityOneDay | grep -Ev "tls-patch|tls\.go") \
      && for patchFile in ${filePath_PatchList}; do sed -i 's/ValidityOneMonth/ValidityOneMonth/g' ${patchFile}; done \
      && ./hack/build.sh \
-	 && mv ./bin/openshift-install /root/openshift-install-mod \
+	 && mv ./bin/openshift-install /root/openshift-install-edge \
 	 && cd /root \
-     && ./openshift-install-mod version \
+     && ./openshift-install-edge version \
 	 && rm -rf /root/dev/installer
