@@ -15,6 +15,6 @@ RUN set -ex \
      && for patchFile in ${filePath_PatchList}; do sed -i 's/ValidityOneMonth/ValidityOneMonth/g' ${patchFile}; done \
      && ./hack/build.sh \
 	 && mv ./bin/openshift-install /root/openshift-install-edge \
-	 && cd /root \
-     && ./openshift-install-edge version \
+     && ls /root \
+     && ./root/openshift-install-edge version \
 	 && rm -rf /root/dev/installer
