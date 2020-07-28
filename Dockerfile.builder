@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal as aux
 FROM docker.io/containercraft/ccio-golang:ubi8 as builder
-ARG gitBranch="release-4.6"
-ARG uriInstaller="https://github.com/openshift/installer.git"
+ARG gitBranch="claudiol-offline-components"
+ARG uriInstaller="https://github.com/rhtconsulting/installer.git"
 ARG filePath_tlsgo="/root/dev/installer/pkg/asset/tls/tls.go"
 WORKDIR /root/dev 
 RUN set -ex \
