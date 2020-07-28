@@ -1,11 +1,11 @@
-name: OpenShiftInstallBinary_NightlyBuilder
+name: OpenShiftInstallBinary_OfflineFeatureBuilder
 on:
   push:
     branches: 
-      - 4.6
+      - offline
   pull_request:
     branches: 
-      - 4.6
+      - offline
   schedule:
     - cron: '0 8 * * *'
 jobs:
@@ -19,9 +19,9 @@ jobs:
         echo "::set-env name=varrundate::$varrundate"
     - name: Variable | Export Binary Last Commit Hash
       run: |
-        git clone https://github.com/openshift/installer.git /tmp/installer
+        git clone https://github.com/rhtconsulting/installer.git /tmp/installer
         cd /tmp/installer
-        git checkout release-4.6
+        git checkout claudiol-offline-components
         export githash="$(git log -1 --pretty=%h)"
         echo "::set-env name=githash::$githash"
     - name: Docker.io Login
@@ -34,20 +34,20 @@ jobs:
       run: |
         docker build . \
                  --file ./Dockerfile.builder \
-                 --tag localhost/builder:4.6
+                 --tag localhost/builder:offline
     - name: Carrier Image | Copy binary into cradle
       run: |
         docker build . \
                  --file ./Dockerfile \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6 \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6 \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }} \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline \
+                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline \
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }} \
+                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
     - name: Image Push | openshift-install-edge | docker.io
       run: |
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6;        \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline;        \
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
 #   - name: Image Push | openshift-install-mod | quay.io
 #     run: |
-#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6;        \
-#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:4.6-${{ env.varrundate }}-${{ env.githash }}
+#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline;        \
+#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
