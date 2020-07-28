@@ -19,9 +19,9 @@ jobs:
         echo "::set-env name=varrundate::$varrundate"
     - name: Variable | Export Binary Last Commit Hash
       run: |
-        git clone https://github.com/rhtconsulting/installer.git /tmp/installer
+        git clone https://github.com/openshift/installer.git /tmp/installer
         cd /tmp/installer
-        git checkout claudiol-4.6-components
+        git checkout release-4.6
         export githash="$(git log -1 --pretty=%h)"
         echo "::set-env name=githash::$githash"
     - name: Docker.io Login
