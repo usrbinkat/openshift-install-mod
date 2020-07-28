@@ -16,5 +16,5 @@ RUN set -ex \
      && ./hack/build.sh \
 	 && mv ./bin/openshift-install /root/openshift-install-offline \
 	 && cd /root \
-     && ./openshift-install-edge version \
+     && ./openshift-install-offline version \
 	 && rm -rf /root/dev/installer
