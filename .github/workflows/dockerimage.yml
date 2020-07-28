@@ -30,7 +30,7 @@ jobs:
     - name: Quay.io Login
       run: |
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io 
-    - name: Builder Image | Compile Binary | openshift-install-mod
+    - name: Builder Image | Compile Binary | openshift-install-offline
       run: |
         docker build . \
                  --file ./Dockerfile.builder \
@@ -43,11 +43,11 @@ jobs:
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }} \
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | openshift-install-edge | docker.io
+    - name: Image Push | openshift-install-offline | docker.io
       run: |
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline;        \
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | openshift-install-mod | quay.io
+    - name: Image Push | openshift-install-offline | quay.io
       run: |
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline;        \
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
