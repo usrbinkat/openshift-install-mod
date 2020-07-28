@@ -47,7 +47,7 @@ jobs:
       run: |
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline;        \
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
-#   - name: Image Push | openshift-install-mod | quay.io
-#     run: |
-#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline;        \
-#       docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}
+    - name: Image Push | openshift-install-mod | quay.io
+      run: |
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline;        \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/openshift-install-mod:offline-${{ env.varrundate }}-${{ env.githash }}

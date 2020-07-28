@@ -14,7 +14,7 @@ RUN set -ex \
      && export filePath_PatchList=$(grep -lR ValidityOneDay | grep -Ev "tls-patch|tls\.go") \
      && for patchFile in ${filePath_PatchList}; do sed -i 's/ValidityOneMonth/ValidityOneMonth/g' ${patchFile}; done \
      && ./hack/build.sh \
-	 && mv ./bin/openshift-install /root/openshift-install-edge \
+	 && mv ./bin/openshift-install /root/openshift-install-offline \
 	 && cd /root \
      && ./openshift-install-edge version \
 	 && rm -rf /root/dev/installer
