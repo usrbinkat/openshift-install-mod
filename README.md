@@ -1,10 +1,15 @@
-# openshift-install-mod
-unofficial experimental tls ttl mod
+# openshift-install-offline
 ```
 mkdir /tmp/offline
 ```
 ```
-cat <<EOF >/tmp/offline/offline-config.yaml
+sudo podman run --rm -it \
+    --name offline --pull=always \
+    --entrypoint bash --volume /tmp/offline:/ocp-images:z \
+  quay.io/codesparta/konductor:latest
+```
+```
+cat <<EOF >/ocp-images/offline-config.yaml
 rhcos:
   architecture: amd64
   version:      4.5.2-x86_64
@@ -15,22 +20,20 @@ ocpmirror:
   ocbin: "/usr/bin/oc"
   pullsecret: "/root/.docker/config.json"
   src: "quay.io/openshift-release-dev/ocp-release:4.5.4-x86_64"
-  dest: "/tmp/offline"
+  dest: "/ocp-images"
 
 ocpdistribution:
-  destdir: /tmp/offline
+  destdir: /ocp-images
   isofile: offline-ocp4-components.iso
 EOF
 ```
-```
-sudo podman run --rm -it \
-  --name offline --pull=always \
-  --entrypoint bash --volume /tmp/offline:/root/offline:z \
- quay.io/codesparta/konductor:latest
-```
+
 ```
 openshift-install-offline create offline-package \
-  --dir=/tmp/offline --log-level=debug
+  --dir=/ocp-images --log-level=debug
+```
+```
+exit
 ```
 ```
  ls -lah /tmp/offline
