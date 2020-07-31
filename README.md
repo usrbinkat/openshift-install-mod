@@ -13,12 +13,12 @@ rhcos:
 
 ocpmirror:
   ocbin: "/usr/bin/oc"
-  pullsecret: "/opt/registry/auth/local-secret.txt"
-  src: "quay.io/openshift-release-dev/ocp-release:4.4.0-x86_64"
-  dest: "/ocp-images"
+  pullsecret: "/root/.docker/config.json"
+  src: "quay.io/openshift-release-dev/ocp-release:4.5.4-x86_64"
+  dest: "/tmp/offline"
 
 ocpdistribution:
-  destdir: /ocp-images
+  destdir: /tmp/offline
   isofile: offline-ocp4-components.iso
 EOF
 ```
@@ -30,8 +30,8 @@ sudo podman run --rm -it \
 ```
 ```
 openshift-install-offline create offline-package \
-  --dir=/root/offline --log-level=debug
+  --dir=/tmp/offline --log-level=debug
 ```
 ```
- ls -lah /root/offline
+ ls -lah /tmp/offline
 ```
