@@ -32,5 +32,6 @@ sudo podman run --rm -it \
 openshift-install-offline create offline-package \
   --dir=/root/offline --log-level=debug
 ```
+```
  ls -lah /root/offline
 ```
